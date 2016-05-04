@@ -38,15 +38,15 @@ vocab <- names(term.tables_final)
 ## word
 
 get.terms <- function(x) {
-  index <- match(x, vocab)  # 获取词的ID
-  index <- index[!is.na(index)]  #去掉没有查到的，也就是去掉了的词
-  rbind(as.integer(index - 1), as.integer(rep(1, length(index))))   #生成上图结构
+  index <- match(x, vocab)  # grab vocab id
+  index <- index[!is.na(index)]  #ignore stop/na word
+  rbind(as.integer(index - 1), as.integer(rep(1, length(index))))   #feed lda model structure
 }
 documents <- lapply(doc.list, get.terms)
 
 ## LDA model
-K <- 5   #主题数
-G <- 5000    #迭代次数
+K <- 5   # numbers of topics
+G <- 5000    #iteration times
 alpha <- 0.10   
 eta <- 0.02
 
@@ -64,15 +64,15 @@ fit <- lda.collapsed.gibbs.sampler(documents = documents, K = K, vocab = vocab, 
 
 ## visualizaion
 
-heta <- t(apply(fit$document_sums + alpha, 2, function(x) x/sum(x)))  #文档—主题分布矩阵
-phi <- t(apply(t(fit$topics) + eta, 2, function(x) x/sum(x)))  #主题-词语分布矩阵
-term.frequency <- as.integer(term.tables_final)   #词频
-doc.length <- sapply(documents, function(x) sum(x[2, ])) #每篇文章的长度，即有多少个词
+theta <- t(apply(fit$document_sums + alpha, 2, function(x) x/sum(x)))  #topic-model matrix
+phi <- t(apply(t(fit$topics) + eta, 2, function(x) x/sum(x)))  #topic-models ditrb matrix
+term.frequency <- as.integer(term.tables_final)   #term frequency
+doc.length <- sapply(documents, function(x) sum(x[2, ])) # How many words in each article
 
 ## 
 library(LDAvis)
 json <- createJSON(phi = phi, theta = theta, 
                    doc.length = doc.length, vocab = vocab,
                    term.frequency = term.frequency)
-#json为作图需要数据，下面用servis生产html文件，通过out.dir设置保存位置
-serVis(json, out.dir = './vis', open.browser = FALSE)
+#json to keep data
+serVis(json, out.dir = './vis', open.browser = TRUE)
