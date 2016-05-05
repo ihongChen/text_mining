@@ -7,11 +7,11 @@ library(RMySQL)
 # connect to MySQL db, 
 m <- dbDriver("MySQL")
 con<-dbConnect(m,user='mcm',password='welcome323',host='omega',dbname='yeast');
-mydb <- dbConnect(m,user='ehome4829',
-                  password='a126234829',
-                  host='ihongchen.ctbx4pq8or72.us-west-2.rds.amazonaws.com',
-                  port=3306,
-                  dbname='test');
+mydb <- dbConnect(m,user='xxxxxx',
+                  password='xxxxxx',
+                  host='ihongchen.xxxxxxxx',
+                  port=xxxx,
+                  dbname='xxxx');
 
 ## must set to be UTF8 setting, else ???? occur
 dbSendQuery(mydb,"SET NAMES utf8")
