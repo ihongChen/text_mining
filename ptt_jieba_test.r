@@ -23,7 +23,7 @@ library(dplyr)
 # connect to MySQL db, 
 m <- dbDriver("MySQL")
 mydb <- dbConnect(m,user='ehome4829',
-                  password='a126234829',
+                  password='oooooooooooooo',
                   host='ihongchen.ctbx4pq8or72.us-west-2.rds.amazonaws.com',
                   port=3306,
                   dbname='test');
